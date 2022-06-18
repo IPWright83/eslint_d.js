@@ -35,6 +35,29 @@ if (cmd === 'start'
 }
 
 const args = process.argv.slice(2);
+
+// Should we be setting the current working directory to the
+// nearest eslint configuration?
+const setCwdIndex = args.findIndex(a => a.startsWith('--setCwdFromConfig'));
+if (setCwdIndex > -1) {
+  
+  // Remove from the args, as eslint doesn't recognise this parameter
+  // and dies if we pass it through
+  const arg = args.splice(setCwdIndex, 1);
+
+  try {
+    const configName = arg[0].split('=')[1];
+    const cwd = require('../lib/eslint-config-path')
+      .resolve(process.cwd(), configName);
+
+    if (cwd) {
+      process.chdir(cwd);
+    }
+  } catch (e) {
+    // Continue without setting the cwd
+  }
+}
+
 if (args.indexOf('--stdin') > -1) {
   let text = '';
   process.stdin.setEncoding('utf8');

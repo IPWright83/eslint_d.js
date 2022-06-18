@@ -129,6 +129,17 @@ user's home directory.
 
 If you're using `eslint_d` in any other editor, please let us know!
 
+#### Current Working Directory
+
+Some editors allow you to open easily open single files on a 2nd monitor, 
+but in doing so they can change the current working directory, stopping
+things from working in your project.  You can fix this by passing the
+`setCwdFromConfig` switch. Specify where your eslint config sits according
+to https://eslint.org/docs/user-guide/configuring/ and the current working
+directory will automatically be set to the nearest config file.
+
+--setCwdFromConfig={package.json|.eslintrc}
+
 ### Automatic Fixing
 
 `eslint_d` has an additional flag that `eslint` does not have,
@@ -153,7 +164,6 @@ used with `--stdin`.
   ```vim
   nnoremap <leader>f mF:%!eslint_d --stdin --fix-to-stdout --stdin-filename %<CR>`F
   ```
-
 
 ## Moar speed
 
